@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YFC – Join Us</title>
+  <link rel="stylesheet" href="yfc.css">
+</head>
+<body>
+
+  <main class="join-page">
+    <div class="form-container">
+      <h2>Join CFC Youth For Christ</h2>
+      <p class="subtitle">
+        Please fill out the form below to register.
+        Fields marked with <span style="color: red;">*</span> are required.
+      </p>
+
+      <form id="joinForm">
+
+        <fieldset>
+          <legend>Participant Information</legend>
+
+          <div class="form-group">
+            <label for="p-name">Full Name *</label>
+            <input type="text" id="p-name" name="participant_name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="p-messenger">Facebook/Messenger Link or Username *</label>
+            <input type="url" id="p-messenger" name="participant_messenger" placeholder="https://facebook.com/username" required>
+          </div>
+
+          <div class="form-group">
+            <label for="p-number">Cellphone Number *</label>
+            <input type="text" id="p-number" name="participant_number" placeholder="09XX-XXX-XXXX" required>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Guardian Information</legend>
+
+          <div class="form-group">
+            <label for="g-name">Guardian's Full Name *</label>
+            <input type="text" id="g-name" name="guardian_name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="g-messenger">Guardian's Facebook/Messenger Link or Username</label>
+            <input type="url" id="g-messenger" name="guardian_messenger" placeholder="https://facebook.com/username">
+          </div>
+
+          <div class="form-group">
+            <label for="g-number">Cellphone Number *</label>
+            <input type="text" id="g-number" name="guardian_number" placeholder="09XX-XXX-XXXX" required>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Permission Slip</legend>
+
+          <div class="form-group file-upload">
+            <label for="permission-slip">Permission Slip PDF *</label>
+            <input type="file" id="permission-slip" name="permission_slip" accept="application/pdf,.pdf" required>
+            <p class="file-note">A signed PDF permission slip from your guardian is mandatory to join.</p>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="submit-btn">Submit Application</button>
+      </form>
+
+      <a href="yfc.html" class="back-link">← Back to Home</a>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBeD3seGWoTcDDaV9N7uSWVXjDeEa5DwSg",
+      authDomain: "yfc-website-29e56.firebaseapp.com",
+      databaseURL: "https://yfc-website-29e56-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "yfc-website-29e56",
+      storageBucket: "yfc-website-29e56.firebasestorage.app",
+      messagingSenderId: "129710584022",
+      appId: "1:129710584022:web:24a7f1212200b6dbb0d977",
+      measurementId: "G-HZY374NMRJ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const storage = getStorage(app);
+
+    const form = document.getElementById("joinForm");
+    const submitBtn = document.querySelector(".submit-btn");
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting...";
+
+      try {
+        const pdfFile = document.getElementById("permission-slip").files[0];
+
+        if (!pdfFile) {
+          alert("Please upload a permission slip.");
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Submit Application";
+          return;
+        }
+
+        if (pdfFile.type !== "application/pdf") {
+          alert("Only PDF files are allowed.");
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Submit Application";
+          return;
+        }
+
+        const filePath = `permission_slips/${Date.now()}_${pdfFile.name}`;
+        const fileRef = storageRef(storage, filePath);
+
+        await uploadBytes(fileRef, pdfFile);
+        const fileURL = await getDownloadURL(fileRef);
+
+        const applicationData = {
+          participant: {
+            name: document.getElementById("p-name").value,
+            messenger: document.getElementById("p-messenger").value,
+            number: document.getElementById("p-number").value
+          },
+          guardian: {
+            name: document.getElementById("g-name").value,
+            messenger: document.getElementById("g-messenger").value,
+            number: document.getElementById("g-number").value
+          },
+          permissionSlip: {
+            fileName: pdfFile.name,
+            filePath: filePath,
+            fileURL: fileURL
+          },
+          status: "pending",
+          submittedAt: new Date().toISOString()
+        };
+
+        const newApplicationRef = push(ref(db, "yfc_applications"));
+        await set(newApplicationRef, applicationData);
+
+        alert("Application submitted successfully!");
+        window.location.href = "ty.html";
+
+      } catch (error) {
+        console.error("Submission error:", error);
+        alert("Submission failed. Please check Firebase rules and try again.");
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Application";
+      }
+    });
+  </script>
+
+</body>
+</html>

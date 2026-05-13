@@ -1,0 +1,414 @@
+/* GLOBAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+:root {
+    --primary: #81D032; /* Light Green */
+    --darkgreen: #0d3b1c; /* Dark Forest Green */
+    --light: #fff;
+    --bg: #f7fff0; /* Very light green/off-white */
+}
+
+body {
+    background: var(--bg);
+    color: #222;
+}
+
+/* =========================================
+   NAVIGATION
+   ========================================= */
+nav {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    backdrop-filter: blur(4px); 
+    padding: 15px 0;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-container {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-logo {
+    height: 40px;
+    width: auto;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: var(--light);
+    font-weight: bold;
+    font-size: 1rem;
+    transition: 0.3s;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.nav-links li a:hover {
+    opacity: 0.7;
+}
+
+/* =========================================
+   HERO SECTION
+   ========================================= */
+.hero {
+    /* Gradient Overlay + Image */
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url('hero.png');
+    
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.hero h1 {
+    font-size: 3.5rem; 
+    font-weight: 800; 
+    text-transform: uppercase;
+    margin: 0 0 20px 0; 
+    line-height: 1.1; 
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8); 
+}
+
+.hero p {
+    font-size: 1.25rem; 
+    line-height: 1.6; 
+    max-width: 700px; 
+    margin-bottom: 40px; 
+    opacity: 0.95; 
+    font-weight: 400; 
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* === HERO BUTTON STYLE === */
+.hero a {
+    display: inline-block; 
+    
+    /* GHOST BUTTON STYLE */
+    background-color: transparent; 
+    border: 2px solid white; 
+    color: white !important; 
+    
+    /* Shape */
+    padding: 14px 40px; 
+    border-radius: 5px; 
+    
+    /* Typography */
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    text-decoration: none; 
+    letter-spacing: 1px;
+    
+    /* Animation */
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+/* HOVER EFFECT */
+.hero a:hover {
+    background-color: white;
+    color: var(--primary) !important; /* Green text on hover */
+    border-color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 768px) {
+    .hero h1 { font-size: 2.5rem; }
+    .hero p { font-size: 1.1rem; }
+    .hero a { padding: 12px 30px; font-size: 1rem; }
+}
+
+/* =========================================
+   GENERIC SECTIONS
+   ========================================= */
+.section {
+    padding: 70px 20px;
+    text-align: center;
+    background: var(--light);
+}
+
+.section.alt {
+    background: #ebffd6;
+}
+
+.section h2 {
+    font-size: 2.2rem;
+    color: var(--darkgreen);
+    margin-bottom: 20px;
+}
+
+.section p {
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: auto;
+}
+
+/* =========================================
+   CARDS
+   ========================================= */
+.card-container {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.card {
+    width: 280px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    border: 2px solid var(--primary);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+    color: var(--darkgreen);
+    margin-bottom: 8px;
+}
+
+/* =========================================
+   CTA SECTION
+   ========================================= */
+.cta {
+    padding: 80px 20px;
+    text-align: center;
+    background: var(--primary);
+    color: white;
+}
+
+.cta h2 { font-size: 2.2rem; }
+
+.cta-btn {
+    margin-top: 20px;
+    display: inline-block;
+    padding: 12px 30px;
+    background: white;
+    color: var(--primary);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.cta-btn:hover { opacity: 0.8; }
+
+/* =========================================
+   FOOTER
+   ========================================= */
+footer {
+    background: var(--darkgreen);
+    padding: 25px;
+    text-align: center;
+    color: white;
+    margin-top: 40px;
+}
+
+/* =========================================
+   JOIN PAGE FORM STYLES
+   ========================================= */
+
+/* Main layout for the form page */
+.join-page {
+    padding-top: 100px; /* Space for the fixed navigation bar */
+    padding-bottom: 50px;
+    background: var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 650px;
+    margin: 20px;
+    background: var(--light);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-top: 5px solid var(--primary);
+}
+
+.form-container h2 {
+    color: var(--darkgreen);
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.form-container .subtitle {
+    text-align: center;
+    color: #555;
+    margin-bottom: 30px;
+    font-size: 1rem;
+}
+
+/* Fieldset and Legend for grouping */
+fieldset {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+}
+
+legend {
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 1.15rem;
+    padding: 0 10px;
+}
+
+/* Form Groups (Label + Input) */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group input[type="url"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 5px rgba(129, 208, 50, 0.5); /* Primary color box shadow */
+}
+
+/* File Upload Specific Styling */
+.file-upload {
+    padding: 10px;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+    background: #fcfcfc;
+}
+
+.file-upload input[type="file"] {
+    margin-top: 10px;
+}
+
+.file-note {
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: 5px;
+}
+
+/* Submit Button */
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--darkgreen);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 25px;
+}
+
+.submit-btn:hover {
+    background-color: var(--primary);
+    transform: translateY(-1px);
+}
+
+/* Back Link */
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* =========================================
+   THANK YOU PAGE STYLES
+   ========================================= */
+
+.thank-you-page {
+    align-items: center; /* Center the box vertically more cleanly */
+}
+
+.thank-you-box {
+    text-align: center;
+    padding: 60px 40px;
+}
+
+.thank-you-box .success-message {
+    color: var(--primary); /* Use the bright green for success */
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.thank-you-box p {
+    font-size: 1.1rem;
+    color: #444;
+    margin-bottom: 30px;
+}
+
+.immediate-link {
+    /* Reuses the CTA button style, slightly modified for size */
+    background: var(--darkgreen);
+    color: var(--light) !important;
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-size: 1rem;
+    text-transform: none;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+}
+
+.immediate-link:hover {
+    background: var(--primary);
+    color: white !important;
+    opacity: 1; /* Reset opacity from CTA hover */
+}
